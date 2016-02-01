@@ -30,17 +30,26 @@ splitTable <- function(df, maxRows = 74){
 #' rmarkdown Kable Writer
 #'
 #' Wrapper to `splitTable` that splits a data frame into a a list and writes out markdown slides to be read in as a child document ot main markdown file
-#' @param df A data.frame to write out
+#' @param df A data.frame to split and write out
+#' @param maxRows The maximum number of rows for the new table(s)
 #' @param filename The filename of the rmarkdown document including extension.
 #' @param slideTitle Slide Title
 #' @param otherText Sub text prior to table
 #' @param repeatOther Logical. If `TRUE` the sub text will be repeated on each slide
-#' @param ... Other arguments to `splitTable`
+#' @param ... Other arguments to `kable`
 #' @return Nothing in R.  A markdown documner with the specified file name.
 #' @export
-#' @examples writeRMDKable(airquality, maxRows = 50, slideTitle = "Slide title", otherText = "Extra information")
-writeRMDKable <- function(df, filename = tempfile(), slideTitle = "Table",
-                          otherText = NULL, repeatOther = TRUE, ...){
+#' @examples {
+#'   writeRMDKable(airquality, maxRows = 50, slideTitle = "Slide title", 
+#'                 otherText = "Extra information")
+#'   writeRMDKable(airquality, maxRows = 50, slideTitle = "Slide title", 
+#'                 otherText = "Extra information",
+#'                 col.names = names(airquality))
+#' }
+writeRMDKable <- function(df, maxRows = 50, filename = tempfile(), 
+                          slideTitle = "Table",
+                          otherText = NULL, 
+                          repeatOther = TRUE, ...){
   # Start new file
   sink(filename)
 
@@ -49,7 +58,7 @@ writeRMDKable <- function(df, filename = tempfile(), slideTitle = "Table",
   if (!is.null(otherText)) cat(otherText, "\n\n")
   cat("```{r, echo=FALSE, results='asis'}\n")
 
-  # Handle other arguments passed to splitTable
+  # Handle other arguments passed to kable
   ellipsis <- list(...)
   otherArgs <- NULL
   if(length(ellipsis) > 0){
@@ -58,7 +67,7 @@ writeRMDKable <- function(df, filename = tempfile(), slideTitle = "Table",
   }
 
   # Generate expression then call (for the upcoming loop) and write to Rmd
-  splitTableExpr <- paste0("dfList <- splitTable(", deparse(substitute(df)), otherArgs, ")\n")
+  splitTableExpr <- paste0("dfList <- splitTable(", deparse(substitute(df)), ", maxRows = ", maxRows, ")\n")
   cat(splitTableExpr)
   eval(parse(text = splitTableExpr))
   cat("```\n\n")
@@ -68,13 +77,13 @@ writeRMDKable <- function(df, filename = tempfile(), slideTitle = "Table",
     if(i > 1)  cat("#", slideTitle, "\n\n")
     if (i > 1 & !is.null(otherText) & repeatOther) cat(otherText, "\n\n")
     cat("```{r, echo=FALSE, results='asis'}\n")
-    cat("knitr:::kable(dfList[[", i, "]], row.names=FALSE)\n", sep = "")
-    #cat("kable(airquality, row.names=FALSE)\n", sep = "")
+    cat("knitr:::kable(dfList[[", i, "]], row.names=FALSE", otherArgs, ")\n", sep = "")
     cat("```\n\n")
   }
 
   # No return, close file
-  invisible(sink())
+  sink()
+  cat("File written to: \"", filename, "\"\n", sep = "")
 }
 
 

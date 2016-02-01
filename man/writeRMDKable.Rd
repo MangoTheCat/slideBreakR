@@ -4,11 +4,13 @@
 \alias{writeRMDKable}
 \title{rmarkdown Kable Writer}
 \usage{
-writeRMDKable(df, filename = tempfile(), slideTitle = "Table",
-  otherText = NULL, repeatOther = TRUE, ...)
+writeRMDKable(df, maxRows = 50, filename = tempfile(),
+  slideTitle = "Table", otherText = NULL, repeatOther = TRUE, ...)
 }
 \arguments{
-\item{df}{A data.frame to write out}
+\item{df}{A data.frame to split and write out}
+
+\item{maxRows}{The maximum number of rows for the new table(s)}
 
 \item{filename}{The filename of the rmarkdown document including extension.}
 
@@ -18,7 +20,7 @@ writeRMDKable(df, filename = tempfile(), slideTitle = "Table",
 
 \item{repeatOther}{Logical. If `TRUE` the sub text will be repeated on each slide}
 
-\item{...}{Other arguments to `splitTable`}
+\item{...}{Other arguments to `kable`}
 }
 \value{
 Nothing in R.  A markdown documner with the specified file name.
@@ -27,6 +29,12 @@ Nothing in R.  A markdown documner with the specified file name.
 Wrapper to `splitTable` that splits a data frame into a a list and writes out markdown slides to be read in as a child document ot main markdown file
 }
 \examples{
-writeRMDKable(airquality, maxRows = 50, slideTitle = "Slide title", otherText = "Extra information")
+{
+  writeRMDKable(airquality, maxRows = 50, slideTitle = "Slide title", 
+                otherText = "Extra information")
+  writeRMDKable(airquality, maxRows = 50, slideTitle = "Slide title", 
+                otherText = "Extra information",
+                col.names = names(airquality))
+}
 }
 
