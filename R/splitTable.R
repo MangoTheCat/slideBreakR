@@ -36,6 +36,7 @@ splitTable <- function(df, maxRows = 74){
 #' @param slideTitle Slide Title
 #' @param otherText Sub text prior to table
 #' @param repeatOther Logical. If `TRUE` the sub text will be repeated on each slide
+#' @param silent Logical. If `TRUE` reporting of the filename is suppressed.
 #' @param ... Other arguments to `kable`
 #' @return Nothing in R.  A markdown documner with the specified file name.
 #' @export
@@ -46,10 +47,14 @@ splitTable <- function(df, maxRows = 74){
 #'                 otherText = "Extra information",
 #'                 col.names = names(airquality))
 #' }
-writeRMDKable <- function(df, maxRows = 50, filename = tempfile(), 
+writeRMDKable <- function(df, 
+                          maxRows = 50, 
+                          filename = tempfile(), 
                           slideTitle = "Table",
                           otherText = NULL, 
-                          repeatOther = TRUE, ...){
+                          repeatOther = TRUE, 
+                          silent = TRUE, 
+                          ...){
   # Start new file
   sink(filename)
 
@@ -83,7 +88,10 @@ writeRMDKable <- function(df, maxRows = 50, filename = tempfile(),
 
   # No return, close file
   sink()
-  cat("File written to: \"", filename, "\"\n", sep = "")
+  if (silent) invisible()
+  else{
+    cat("File written to: \"", filename, "\"\n", sep = "")
+  }
 }
 
 
