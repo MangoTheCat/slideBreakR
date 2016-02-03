@@ -2,3 +2,4 @@
 
 export(splitTable)
 export(writeRMDKable)
+importFrom(knitr,kable)
