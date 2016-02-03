@@ -1,12 +1,14 @@
 Package: slideBreakR
-Title: What the Package Does (one line, title case)
-Version: 0.0.0.9001
+Title: Split long tables for presentations
+Version: 0.1.0
 Authors@R: person("Andy", "Nicholls", email = "anicholls@mango-solutions.com", role = c("aut", "cre"))
 Description: An R package for splitting tables up over multiple slides using knitr, rmarkdown and slidy.
 Depends:
     R (>= 3.2.2)
 Imports:
     knitr
+Suggests:
+    testthat
 License: BSD-3 + file LICENSE
 LazyData: true
 RoxygenNote: 5.0.1
