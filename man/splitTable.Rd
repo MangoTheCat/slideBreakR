@@ -12,12 +12,13 @@ splitTable(df, maxRows = 74)
 \item{maxRows}{The maximum number of rows for the new table(s)}
 }
 \value{
-A list of tables.
+A list of tables
 }
 \description{
 Splits a large table into smaller tables based on a maximum number of rows
 }
 \examples{
 splitTable(airquality, maxRows = 50)
+
 }
 
