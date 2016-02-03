@@ -1,16 +1,11 @@
-# slideBreakR
-An R package for splitting tables up over multiple slides using knitr, rmarkdown and slidy.
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+This package is designed to make rendering long tables easier in slides.
 
-This package was written to solve a small but frustrating problem when working with rmarkdown and slidy.  Typically when a table is too long for the slide it continues and you must scroll down to see the bottom.  This package enables a user to define a maximum number of rows to display on a slide and then automatically cuts the table up into separate slides and chunks.
+The `splitTable` function does the actual splitting of a data.frame into a list of smaller data.frames.
 
-## Installation
+The `writeRMDKable` will produce an .Rmd file with the results written as markdown, this can then be read into a presentation as knitr child item.
 
-```r
-devtools::install_github("mangothecat/slideBreakR")
-```
+To install this package:
 
-## Usage
-
-```r
-library(slideBreakR)
-```
+    if(!require(devtools)) install.packages("devtools")
+    devtools::install_github("mangothecat/slideBreakR")
